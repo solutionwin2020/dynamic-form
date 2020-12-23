@@ -77,7 +77,6 @@
                     }
                 }
                 
-                
                 if($chk == 0){
                     echo "0";
                 }else{
@@ -90,7 +89,7 @@
             
             if(isset($_POST['form_data_template_key']))
             {   
-                $data = $_POST;
+                $data = $_POST['form_data_template_key'];
                 $postdata=[];
                 foreach($data as $key=>$item){
                     $key=clean($key);
@@ -99,7 +98,7 @@
                 $chk = 0;
                 try{
                             // check form id
-                    $data_key = $_POST['form_data_template_key'];
+                    $data_key = $data['form_data_template_key'];
                     $reference = $database->getReference('users');
                     $data = json_encode($reference->getSnapshot()->getValue());
                     $someArray = json_decode($data, true);
@@ -113,12 +112,14 @@
                 if($chk == 0){
                     $postRef = $database->getReference('users')->push($postdata);
                     $postKey = $postRef->getKey();
-                    $prev_link = preg_replace('/\?message.*/', '', $_SERVER['HTTP_REFERER']);
-                    header('Location: '.$prev_link.'?message='.$postKey.'');
+                    // $prev_link = preg_replace('/\?message.*/', '', $_SERVER['HTTP_REFERER']);
+                    // header('Location: '.$prev_link.'?message='.$postKey.'');
+                    echo $postKey;
                 }else{
                     unset($postdata['form_data_template_key']);
                     $postRef = $database->getReference('users/'.$data_key.'')->update($postdata);
-                    header('Location: '.$_SERVER['HTTP_ORIGIN'].'/dynamic-form/form-data.php?key='.$data_key.'&updated=update');
+                    // header('Location: '.$_SERVER['HTTP_ORIGIN'].'/dynamic-form/form-data.php?key='.$data_key.'&updated=update');
+                    echo $postKey;
                 }
                 
             }
