@@ -1,0 +1,6 @@
+{
+    "require": {
+        "vlucas/phpdotenv": "^5.2",
+        "kreait/firebase-php": "^4.17.0"
+    }
+}
